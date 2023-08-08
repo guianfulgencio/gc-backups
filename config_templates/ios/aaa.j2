@@ -2,5 +2,10 @@
 aaa group server tacacs+ {{ group.name }}
  {% for server in aaa["aaa"]["group"]["server"]['US']["tacacsplus"][0]["server"]["name"] -%}
  server name {{ server.name }}
+ {%- for intf in config_contexts['interface']['GigabitEthernet'] %}
+ {%- if intf.vrf is defined and intf.vrf.forwarding is defined -%}
+ ip vrf forwarding {{ intf.vrf.forwarding }}
+ {% endif -%}
+ {% endfor -%}    
  {% endfor -%}
 {% endfor %}
